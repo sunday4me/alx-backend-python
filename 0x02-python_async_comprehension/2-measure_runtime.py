@@ -1,22 +1,24 @@
 #!/usr/bin/env python3
+"""Import async_comprehension from the previous file and
+write a measure_runtime coroutine that will execute async_comprehension
+four times in parallel using asyncio.gather.
+measure_runtime should measure the total runtime and return it.
+Notice that the total runtime is roughly 10 seconds, explain it to yourself.
+@author Sunday Jimoh <https://github.com/sunday4me>
 """
-Module - measure_runtime
-"""
-import asyncio
-import time
 
+
+import time
+import asyncio
 async_comprehension = __import__('1-async_comprehension').async_comprehension
 
 
 async def measure_runtime() -> float:
-    """measures runtime of a coroutine"""
+    """Measure the total runtime"""
     start_time = time.time()
 
-    loop = asyncio.get_event_loop()
-    delay = await asyncio.gather(async_comprehension(), async_comprehension(),
-                                 async_comprehension(), async_comprehension())
+    await asyncio.gather(*(async_comprehension() for i in range(4)))
 
     end_time = time.time()
-
     return end_time - start_time
 
